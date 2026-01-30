@@ -7,17 +7,21 @@
   </head>
   <body>
     <h1>Notentool</h1>
-    <table>
+
+    <table id="gradesTable">
       <tr>
         <th>Prüfung</th>
         <th>Gewichtung</th>
         <th>Note</th>
-      </tr>
-      <tr>
+      </t      <tr>
       </tr>
     </table>
-    <button>Noten erfassen</button>
+    
+    <input type="text" id="examNameInput">
+    <input type="number" id="examWeightInput" max="100" min="1">
+    <input type="number" id="examGrade" max="6" min="1">
+    <button id="insertGradeButton">Noten erfassen</button>
     <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
