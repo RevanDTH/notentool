@@ -1,9 +1,9 @@
 // @see - https://www.electron.build/configuration/configuration
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
+  "appId": "com.notentool.app",
   "asar": true,
-  "productName": "YourAppName",
+  "productName": "Notentool",
   "directories": {
     "output": "release/${version}"
   },
@@ -15,6 +15,7 @@
     "target": [
       "dmg"
     ],
+    "icon": "public/Notentool_Logo.icns",
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
   },
   "win": {
@@ -26,6 +27,7 @@
         ]
       }
     ],
+    "icon": "public/Notentool_Logo.ico",
     "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
   },
   "nsis": {
@@ -38,6 +40,7 @@
     "target": [
       "AppImage"
     ],
+    "icon": "public/Notentool_Logo.png",
     "artifactName": "${productName}-Linux-${version}.${ext}"
   }
 }

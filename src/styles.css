@@ -1,3 +1,94 @@
-table, th, td {
-  border:1px solid black;
+#title {
+  text-align: center;
+}
+
+#gradesTable {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #fff;
+  color: #000;
+  border: 2px solid #000;
+  margin-bottom: 20px;
+}
+
+#gradesTable th {
+  background: #000;
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+#gradesTable td {
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+/* subtle alternating rows using only black/white tones */
+#gradesTable tr:nth-child(odd) td {
+  background: #fff;
+}
+#gradesTable tr:nth-child(even) td {
+  background: rgba(0,0,0,0.03); /* very light gray from black for contrast */
+}
+
+/* clear separations */
+#gradesTable th,
+#gradesTable td {
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+/* hover state */
+#gradesTable tr:hover td {
+  background: rgba(0,0,0,0.06);
+}
+
+/* rounded corners on table edges */
+#gradesTable tr:first-child th:first-child { border-top-left-radius: 6px; }
+#gradesTable tr:first-child th:last-child  { border-top-right-radius: 6px; }
+#gradesTable tr:last-child td:first-child  { border-bottom-left-radius: 6px; }
+#gradesTable tr:last-child td:last-child   { border-bottom-right-radius: 6px; }
+
+/* Grade entry: label above input */
+#GradeEnterArea, .GradeEnterArea {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: auto;
+  box-sizing: border-box;
+  padding: 6px 0;
+}
+
+#GradeEnterArea label, .GradeEnterArea label {
+  color: black;
+  border: none;
+  width: fit-content;
+  transition: transform 0.15s, color 0.15s;
+  margin: 0;
+  padding: 0 0 4px 0;
+  font-size: 14px;
+}
+
+#GradeEnterArea input, .GradeEnterArea input {
+  width: 100%;
+  border: 2px solid rgb(0, 0, 0);
+  padding: 8px;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+/* keep the focus styling and use container :focus-within to color/animate the label */
+#GradeEnterArea input:focus, .GradeEnterArea input:focus {
+  border-color: rgb(0, 0, 0);
+  box-shadow: 0 0 0 3px rgba(161,66,249,0.06);
+}
+
+#GradeEnterArea:focus-within label, .GradeEnterArea:focus-within label {
+  color: rgb(0, 0, 0);
+  transform: translateY(-2px);
 }

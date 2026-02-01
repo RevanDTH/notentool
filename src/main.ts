@@ -1,6 +1,15 @@
+import { ipcRenderer } from 'electron';
+
 //Elements
 let newGradeButton = document.getElementById("insertGradeButton") as HTMLButtonElement;
+let examNameInput = document.getElementById("examNameInput") as HTMLTextAreaElement;
+let examWeightInput = document.getElementById("examWeightInput") as HTMLInputElement;
+let examGradeInput = document.getElementById("examGradeInput") as HTMLInputElement;
 
+//Variables
+const showNotification = (title: string, body: string) => {
+    ipcRenderer.send('show-notification', title, body);
+};
 
 //Functions
 function addGrade(name:string,weighting:number,value:number) {
@@ -15,4 +24,15 @@ function addGrade(name:string,weighting:number,value:number) {
 
 
 //Listeners
-newGradeButton.addEventListener("click", () => addGrade("test",1.0,2.2));
+newGradeButton.addEventListener("click", () => {
+    if (examNameInput.value == "" || examWeightInput.value == "" || examGradeInput.value == "") {
+        showNotification("Leere Felder!", "Eines oder mehrere Felder sind ohne gültige Eingabe...");    }else{
+        addGrade(examNameInput.value,Number(examWeightInput.value),Number(examGradeInput.value));
+        examNameInput.value = "";
+        examWeightInput.value = "";
+        examGradeInput.value = "";
+    }
+    
+
+    
+});

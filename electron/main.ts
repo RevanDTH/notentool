@@ -1,6 +1,12 @@
 import { app, BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+import { ipcMain, Notification } from 'electron';
+
+ipcMain.on('show-notification', (event, title: string, body: string) => {
+  event = event; //just so event is used (otherwise I can't build)
+  new Notification({ title, body }).show();
+});
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 

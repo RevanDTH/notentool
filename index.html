@@ -3,24 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <title>Notentool</title>
-    <link rel="stylesheet" href="./src/styles.css">
+    <link rel="stylesheet" href="/src/styles.css">
   </head>
   <body>
-    <h1>Notentool</h1>
+    <h1 id="title">Notentool</h1>
 
     <table id="gradesTable">
       <tr>
         <th>Prüfung</th>
         <th>Gewichtung</th>
         <th>Note</th>
-      </t      <tr>
       </tr>
     </table>
     
-    <input type="text" id="examNameInput">
-    <input type="number" id="examWeightInput" max="100" min="1">
-    <input type="number" id="examGrade" max="6" min="1">
-    <button id="insertGradeButton">Noten erfassen</button>
+    <div id="GradeEnterArea">
+      <input type="text" id="examNameInput" required>
+      <label for="examNameInput">Name der Prüfung</label>
+      <input type="number" id="examWeightInput" min="1" max="100" required>
+      <label for="examWeightInput">Gewichtung der Prüfung</label>
+      <input type="number" id="examGradeInput" min="1" max="6" required>
+      <label for="examGradeInput">Note</label>
+      <button id="insertGradeButton">Noten erfassen</button>
+    </div>
     <div id="app"></div>
     <script type="module" src="./src/main.ts"></script>
   </body>
