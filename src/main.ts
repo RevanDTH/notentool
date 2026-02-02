@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron';
 
 //Elements
+let gradesTableView = document.getElementById("gradesTableView") as HTMLDivElement;
 let newGradeButton = document.getElementById("insertGradeButton") as HTMLButtonElement;
 let examNameInput = document.getElementById("examNameInput") as HTMLTextAreaElement;
 let examWeightInput = document.getElementById("examWeightInput") as HTMLInputElement;
@@ -21,6 +22,10 @@ function addGrade(name:string,weighting:number,value:number) {
     newRow.insertCell(2).innerHTML = value.toString();
 }
 
+function createTopic(){
+    
+}
+
 
 
 //Listeners
@@ -32,7 +37,14 @@ newGradeButton.addEventListener("click", () => {
         examWeightInput.value = "";
         examGradeInput.value = "";
     }
-    
+});
 
-    
+//On DOM loaded
+addEventListener("DOMContentLoaded", (event) => { 
+    event = event; //needed because otherwise app won't compile
+
+    //loading entry point (view)
+    gradesTableView.style.display = "none";
+
+
 });

@@ -8,22 +8,28 @@
   <body>
     <h1 id="title">Notentool</h1>
 
-    <table id="gradesTable">
-      <tr>
-        <th>Prüfung</th>
-        <th>Gewichtung</th>
-        <th>Note</th>
-      </tr>
-    </table>
+    <div id="topicSelectorView">
+      <div id="topicButtons">
+      </div>
+    </div>
     
-    <div id="GradeEnterArea">
-      <input type="text" id="examNameInput" required>
-      <label for="examNameInput">Name der Prüfung</label>
-      <input type="number" id="examWeightInput" min="1" max="100" required>
-      <label for="examWeightInput">Gewichtung der Prüfung</label>
-      <input type="number" id="examGradeInput" min="1" max="6" required>
-      <label for="examGradeInput">Note</label>
-      <button id="insertGradeButton">Noten erfassen</button>
+    <div id="gradesTableView">
+      <table id="gradesTable">
+        <tr>
+          <th>Prüfung</th>
+          <th>Gewichtung</th>
+          <th>Note</th>
+        </tr>
+      </table>
+      <div id="GradeEnterArea">
+        <input type="text" id="examNameInput" required>
+        <label for="examNameInput">Name der Prüfung</label>
+        <input type="number" id="examWeightInput" min="1" max="100" required>
+        <label for="examWeightInput">Gewichtung der Prüfung</label>
+        <input type="number" id="examGradeInput" min="1" max="6" required>
+        <label for="examGradeInput">Note</label>
+        <button id="insertGradeButton">Noten erfassen</button>
+      </div>
     </div>
     <div id="app"></div>
     <script type="module" src="./src/main.ts"></script>
