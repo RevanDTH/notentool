@@ -3,15 +3,15 @@ import Store from 'electron-store';
 
 
 //Elements
-const gradesTableView = document.getElementById("gradesTableView") as HTMLDivElement;
-const newGradeButton = document.getElementById("insertGradeButton") as HTMLButtonElement;
-const examNameInput = document.getElementById("examNameInput") as HTMLTextAreaElement;
-const examWeightInput = document.getElementById("examWeightInput") as HTMLInputElement;
-const examGradeInput = document.getElementById("examGradeInput") as HTMLInputElement;
-const createTopicButton = document.getElementById("createNewTopicButton") as HTMLButtonElement;
-const newTopicInput = document.getElementById("topicNameInput") as HTMLInputElement;
-const topicButtonsDiv = document.getElementById("topicButtons") as HTMLDivElement;
-const store = new Store<Record<string, string>>();
+const GRADES_TABLE_VIEW = document.getElementById("gradesTableView") as HTMLDivElement;
+const NEW_GRADE_BUTTON = document.getElementById("insertGradeButton") as HTMLButtonElement;
+const EXAM_NAME_INPUT = document.getElementById("examNameInput") as HTMLTextAreaElement;
+const EXAM_WEIGHT_INPUT = document.getElementById("examWeightInput") as HTMLInputElement;
+const EXAM_GRADE_INPUT = document.getElementById("examGradeInput") as HTMLInputElement;
+const CREATE_TOPIC_BUTTON = document.getElementById("createNewTopicButton") as HTMLButtonElement;
+const NEW_TOPIC_INPUT = document.getElementById("topicNameInput") as HTMLInputElement;
+const TOPIC_BUTTONS_DIV = document.getElementById("topicButtons") as HTMLDivElement;
+const STORE = new Store<Record<string, string>>();
 
 //Variables
 const showNotification = (title: string, body: string) => {
@@ -32,25 +32,26 @@ function addGrade(name:string,weighting:number,value:number) {
 
 
 function createTopic(name: string) {
-  if (store.get(name) !== undefined) {
+  if (STORE.get(name) !== undefined) {
     return false;
   }else{
-    store.set(name, "{}");
+    STORE.set(name, "{}");
     let newTopicButtonHtmlElement = document.createElement("button") as HTMLButtonElement;
     newTopicButtonHtmlElement.id = name + BUTTON_PREFIX;
-    topicButtonsDiv.appendChild(newTopicButtonHtmlElement);
+    TOPIC_BUTTONS_DIV.appendChild(newTopicButtonHtmlElement);
     newTopicButtonHtmlElement.innerText = name;
+    attachTopicButtonListener(newTopicButtonHtmlElement, name);
     return true;
   }
 
 }
 
-
+// @ts-ignore
 function deleteTopic(name:string){
-    if (store.get(name) == undefined) {
+    if (STORE.get(name) == undefined) {
         return false;
     }else{
-        store.delete(name);
+        STORE.delete(name);
         let currentTopicButtonName = name + BUTTON_PREFIX;
         let currentTopicButton = document.getElementById(currentTopicButtonName);
         currentTopicButton?.remove();
@@ -59,8 +60,9 @@ function deleteTopic(name:string){
 
 }
 
+// @ts-ignore
 function addGradeToTopic(topicName: string,gradeName: string,gradeWeight: number,grade: number) {
-    const topicString = store.get(topicName);
+    const topicString = STORE.get(topicName);
     if (topicString === undefined) return false;
 
     type Grade = {
@@ -79,12 +81,13 @@ function addGradeToTopic(topicName: string,gradeName: string,gradeWeight: number
         grade
     };
 
-    store.set(topicName, JSON.stringify(topicObject));
+    STORE.set(topicName, JSON.stringify(topicObject));
     return true;
 }
 
+// @ts-ignore
 function removeGradeFromTopic(topicName: string, gradeName: string) {
-    const topicString = store.get(topicName);
+    const topicString = STORE.get(topicName);
     if (topicString === undefined) return false;
 
     type Grade = {
@@ -101,50 +104,58 @@ function removeGradeFromTopic(topicName: string, gradeName: string) {
 
     delete topicObject[gradeName];
 
-    store.set(topicName, JSON.stringify(topicObject));
+    STORE.set(topicName, JSON.stringify(topicObject));
     return true;
 }
 
 function loadAllTopics(){
-    // Need to fix that tomorrow
+    let allItems:Record<string, string> = STORE.store;
+    //let allItemsObj = JSON.parse(allItems);
 
-    //let allItems = store.store;
-    //JSON.parse(allItems).forEach(element => {
-      //  
-    //});
-    
-    //let newTopicButtonHtmlElement = document.createElement("button") as HTMLButtonElement;
-    //newTopicButtonHtmlElement.id = name + BUTTON_PREFIX;
-    //topicButtonsDiv.appendChild(newTopicButtonHtmlElement);
-    //newTopicButtonHtmlElement.innerText = name;
+    for(const topic in allItems){
+        let newTopicButtonHtmlElement = document.createElement("button") as HTMLButtonElement;
+        newTopicButtonHtmlElement.id = topic + BUTTON_PREFIX;
+        TOPIC_BUTTONS_DIV.appendChild(newTopicButtonHtmlElement);
+        newTopicButtonHtmlElement.innerText = topic;
+        attachTopicButtonListener(newTopicButtonHtmlElement, topic);
+    }
+}
 
+function attachTopicButtonListener(button: HTMLButtonElement, topicName: string) {
+    button.addEventListener("click", () => {
+        console.log("Topic clicked: " + topicName);
+        // Hier kannst du die Noten für dieses Topic anzeigen
+    });
 }
 
 
 //Listeners
-newGradeButton.addEventListener("click", () => {
-    if (examNameInput.value == "" || examWeightInput.value == "" || examGradeInput.value == "") {
+NEW_GRADE_BUTTON.addEventListener("click", () => {
+    if (EXAM_NAME_INPUT.value == "" || EXAM_WEIGHT_INPUT.value == "" || EXAM_GRADE_INPUT.value == "") {
         showNotification("Leere Felder!", "Eines oder mehrere Felder sind ohne gültige Eingabe...");    
     }else{
-        addGrade(examNameInput.value,Number(examWeightInput.value),Number(examGradeInput.value));
-        examNameInput.value = "";
-        examWeightInput.value = "";
-        examGradeInput.value = "";
+        addGrade(EXAM_NAME_INPUT.value,Number(EXAM_WEIGHT_INPUT.value),Number(EXAM_GRADE_INPUT.value));
+        EXAM_NAME_INPUT.value = "";
+        EXAM_WEIGHT_INPUT.value = "";
+        EXAM_GRADE_INPUT.value = "";
     }
 });
 
-createTopicButton.addEventListener("click", () => {
-    if(newTopicInput.value == ""){
+CREATE_TOPIC_BUTTON.addEventListener("click", () => {
+    if(NEW_TOPIC_INPUT.value == ""){
         showNotification("Leere Felder!", "Eines oder mehrere Felder sind ohne gültige Eingabe...");    
     }else{
-        createTopic(newTopicInput.value); //need to add error handling (function already returns true/false)
+        createTopic(NEW_TOPIC_INPUT.value); //need to add error handling (function already returns true/false)
     }
 })
 
-//On DOM loaded
-addEventListener("DOMContentLoaded", () => { 
-    //loading entry point (view)
-    gradesTableView.style.display = "none";
+function init() {
+  GRADES_TABLE_VIEW.style.display = "none";
+  loadAllTopics();
+}
 
-
-});
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init(); //DOM already loaded
+}

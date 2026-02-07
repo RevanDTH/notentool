@@ -2,9 +2,16 @@ import { app, BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { ipcMain, Notification } from 'electron';
+import Store from 'electron-store';
 
-ipcMain.on('show-notification', (event, title: string, body: string) => {
-  event = event; //just so event is used (otherwise I can't build)
+const store = new Store();
+
+ipcMain.handle('store-get', (_event, key) => store.get(key));
+ipcMain.handle('store-set', (_event, key, value) => store.set(key, value));
+ipcMain.handle('store-delete', (_event, key) => store.delete(key));
+ipcMain.handle('store-all', () => store.store);
+
+ipcMain.on('show-notification', (_event, title: string, body: string) => {
   new Notification({ title, body }).show();
 });
 
@@ -33,6 +40,8 @@ let win: BrowserWindow | null
 function createWindow() {
   win = new BrowserWindow({
     webPreferences: {
+      nodeIntegration: true, //NEED TO REMOVE THAT WHEN RELEASING!!!!
+      contextIsolation: false,
       preload: path.join(__dirname, 'preload.mjs'),
     },
   })
@@ -43,6 +52,7 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
 }
+
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
